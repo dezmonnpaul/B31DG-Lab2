@@ -3,7 +3,7 @@
 
 int Freq03;
 bool Signal3;
-const int Task3MinFreq=333;
+const int Task3MinFreq=500;
 const int Task3MaxFreq=1000;
 int Task3MaxPeriod=1/(2*(Task3MinFreq))*1000000;
 int Task3MinPeriod=1/(2*(Task3MaxFreq))*1000000;
