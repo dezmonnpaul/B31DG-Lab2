@@ -33,6 +33,7 @@ void Task3(){
         status03=false;
     }
   }
+  Freq03=1/time03;
 };
 
 
