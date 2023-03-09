@@ -1,5 +1,5 @@
 #define In4 10
-
+#define Out4 11
 int index04=0;
 int Value04[]={-1,-1,-1,-1};
 int average04[]={0,0};
@@ -16,6 +16,10 @@ void Task4(){
       average04[1]++;
       }
       average04[0]/=average04[1];
+      if(average04[0]>(3.3/2)){
+       digitalWrite(Out4,HIGH); 
+      }
+      else{digitalWrite(Out4,LOW);}
     }
   }
 };
@@ -23,6 +27,8 @@ void Task4(){
 
 void setup() {
   Serial.begin(9600);
+  pinMode(Out4,OUTPUT);
+  pinMode(In4,INPUT);
 }
 
 void loop() {

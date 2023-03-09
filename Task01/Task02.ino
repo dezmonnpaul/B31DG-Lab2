@@ -39,6 +39,7 @@ void Task2(){
 
 void setup() {
   Serial.begin(9600);
+  pinMode(In2,INPUT);
 }
 
 void loop() {
