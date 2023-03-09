@@ -1,11 +1,11 @@
 
-int Freq02;
-const int Task2MinFreq=333;
-const int Task2MaxFreq=1000;
+//int Freq02;
+//const int Task2MinFreq=333;
+//const int Task2MaxFreq=1000;
 
-int Freq03;
-const int Task3MinFreq=500;
-const int Task3MaxFreq=1000;
+//int Freq03;
+//const int Task3MinFreq=500;
+//const int Task3MaxFreq=1000;
 
 int Freq02_Percentage;
 int Freq03_Percentage;
@@ -28,5 +28,5 @@ void loop() {
   Task5();
   time=micros()-time;
   Serial.println(time);
-  //Max time 286us, expected 280us
+  //Max time 46us ,~50us
 }

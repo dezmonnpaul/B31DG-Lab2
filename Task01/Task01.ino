@@ -1,4 +1,4 @@
-#define Out1 14
+#define Out1 8
 
 
 
@@ -12,14 +12,15 @@ void Task1(){
   digitalWrite(Out1,LOW);
 }
 
-void setup() {
+void setup1() {
   Serial.begin(9600);
+  pinMode(Out1,OUTPUT);
 }
 
-void loop() {
+void loop1() {
   unsigned long time=micros();
   Task1();
   time=micros()-time;
   Serial.println(time);
-  //Max time 286us, expected 280us
+  //Max time 286us, ~290us
 }
