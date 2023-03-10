@@ -19,11 +19,11 @@ void Task5(){
 };
 
 
-void setup() {
+void setup5() {
   Serial.begin(9600);
 }
 
-void loop() {
+void loop5() {
   unsigned long time=micros();
   Task5();
   time=micros()-time;
