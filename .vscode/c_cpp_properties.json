@@ -214,6 +214,7 @@
                 "C:\\Users\\Acer\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.6\\tools\\sdk\\esp32c3\\qio_qspi\\include",
                 "C:\\Users\\Acer\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.6\\cores\\esp32",
                 "C:\\Users\\Acer\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.6\\variants\\esp32c3",
+                "C:\\Users\\Acer\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.6\\libraries\\Ticker\\src",
                 "c:\\users\\acer\\appdata\\local\\arduino15\\packages\\esp32\\tools\\riscv32-esp-elf-gcc\\gcc8_4_0-esp-2021r2-patch5\\riscv32-esp-elf\\include\\c++\\8.4.0",
                 "c:\\users\\acer\\appdata\\local\\arduino15\\packages\\esp32\\tools\\riscv32-esp-elf-gcc\\gcc8_4_0-esp-2021r2-patch5\\riscv32-esp-elf\\include\\c++\\8.4.0\\riscv32-esp-elf",
                 "c:\\users\\acer\\appdata\\local\\arduino15\\packages\\esp32\\tools\\riscv32-esp-elf-gcc\\gcc8_4_0-esp-2021r2-patch5\\riscv32-esp-elf\\include\\c++\\8.4.0\\backward",
