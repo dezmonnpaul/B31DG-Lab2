@@ -9,7 +9,7 @@ B31DGCyclicExecutiveMonitor monitor;
 #define Task2MinFreq (333-3)                          //Defining the mimimum frequency for Task 2
 #define Task2MaxFreq (1000+3)                         //Defining the maximum frequency for Task 2 (Frequency range increased by 6 (-3, and +3) to allow a 3Hz error during detection)
 
-unsigned long Freq02=500;                                 //Defining a variable to store the frequency measures in Task 2
+unsigned long Freq02;                                 //Defining a variable to store the frequency measures in Task 2
 bool Signal2;                                         //Defining a variable to store the initial signal when Task 2 begins
 unsigned long time02;                                 //Defining a variable to store the half period measured in Task 2 
 int Task2MaxPeriod=1000000/((Task2MinFreq));          //Defining a variable to store the maximum period expected in Task 2 
@@ -19,7 +19,7 @@ int Task2MinPeriod=1000000/((Task2MaxFreq));          //Defining a variable to s
 #define Task3MinFreq (500-3)                          //Defining the mimimum frequency for Task 3
 #define Task3MaxFreq (1000+3)                         //Defining the maximum frequency for Task 3 (Frequency range increased by 6 (-3, and +3) to allow a 3Hz error during detection)
 
-unsigned long Freq03=600;                                 //Defining a variable to store the frequency measures in Task 3
+unsigned long Freq03;                                 //Defining a variable to store the frequency measures in Task 3
 bool Signal3;                                         //Defining a variable to store the initial signal when Task 3 begins
 unsigned long time03;                                 //Defining a variable to store the half period measured in Task 3 
 int Task3MaxPeriod=1000000/((Task3MinFreq));          //Defining a variable to store the maximum period expected in Task 3 
@@ -141,24 +141,18 @@ void setup() {
 void frame(){
   Task1();
  //Task 1 is called every frame
-  // if(frameCounter % task2Control==0){
-  //   Task2();
-  //   if (task2Control==10){
-  //     task2Control=6;
-  //   }
-  //   else if (task2Control==6){
-  //     task2Control=10;
-  //   }
-  // }
+  if (frameCounter % 2==0){
+    Task3();
+  }
 
 
-  // if (frameCounter % 2==1){
-  //   Task3();
-  // }
+  if((frameCounter % 10)==1||(frameCounter % 10)==5){
+    Task2();
+  }
 
-  // if (frameCounter% 5==0){
-  //   Task4();
-  // }
+  if (frameCounter% 5==0){
+    Task4();
+  }
 
   if(frameCounter % 25==0){
     Task5();
