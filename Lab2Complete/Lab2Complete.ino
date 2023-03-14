@@ -9,7 +9,7 @@ B31DGCyclicExecutiveMonitor monitor;
 #define Task2MinFreq (333-3)                          //Defining the mimimum frequency for Task 2
 #define Task2MaxFreq (1000+3)                         //Defining the maximum frequency for Task 2 (Frequency range increased by 6 (-3, and +3) to allow a 3Hz error during detection)
 
-unsigned long Freq02;                                 //Defining a variable to store the frequency measures in Task 2
+unsigned long Freq02=500;                                 //Defining a variable to store the frequency measures in Task 2
 bool Signal2;                                         //Defining a variable to store the initial signal when Task 2 begins
 unsigned long time02;                                 //Defining a variable to store the half period measured in Task 2 
 int Task2MaxPeriod=1000000/((Task2MinFreq));          //Defining a variable to store the maximum period expected in Task 2 
@@ -19,7 +19,7 @@ int Task2MinPeriod=1000000/((Task2MaxFreq));          //Defining a variable to s
 #define Task3MinFreq (500-3)                          //Defining the mimimum frequency for Task 3
 #define Task3MaxFreq (1000+3)                         //Defining the maximum frequency for Task 3 (Frequency range increased by 6 (-3, and +3) to allow a 3Hz error during detection)
 
-unsigned long Freq03;                                 //Defining a variable to store the frequency measures in Task 3
+unsigned long Freq03=600;                                 //Defining a variable to store the frequency measures in Task 3
 bool Signal3;                                         //Defining a variable to store the initial signal when Task 3 begins
 unsigned long time03;                                 //Defining a variable to store the half period measured in Task 3 
 int Task3MaxPeriod=1000000/((Task3MinFreq));          //Defining a variable to store the maximum period expected in Task 3 
@@ -41,16 +41,17 @@ Ticker frameTicker;                                   //Instantiating an instanc
 int frameCounter=0;                                   //Defining a variable to count the number of frames
 int task2Control=10;                                   //Defining a variable to determine when Task2 will run
 
-void Task1(){                             //Outputs a  digital signal that is 
-  monitor.jobStarted(1);
+unsigned long timeNow=0;
+void Task1(){
+  monitor.jobStarted(1);                             //Outputs a  digital signal that is 
   digitalWrite(Out1,HIGH);                //HIGH for 200us,   
   delayMicroseconds(200);
   digitalWrite(Out1,LOW);                 //LOW for 50us,
   delayMicroseconds(50);
   digitalWrite(Out1,HIGH);                //and HIGH for 30us,
   delayMicroseconds(30);
-  digitalWrite(Out1,LOW);                 //the signal is then kept to be LOW.
-  monitor.jobEnded(1);
+  digitalWrite(Out1,LOW);
+  monitor.jobEnded(1);                 //the signal is then kept to be LOW.
 }
 
 void Task2(){                                   
@@ -128,43 +129,45 @@ void setup() {
 
   digitalWrite(Out3v3,HIGH);   //Sets the 3.3 Output pin for Task 4 to HIGH to output 3,3V
 
-  frameTicker.attach_ms(4, frame);
 
   monitor.startMonitoring();
+  frame();
+  frameTicker.attach_ms(4, frame);
+
+
 
 }
 
 void frame(){
-  Task1(); // Task 1 is called every frame
+  Task1();
+ //Task 1 is called every frame
+  // if(frameCounter % task2Control==0){
+  //   Task2();
+  //   if (task2Control==10){
+  //     task2Control=6;
+  //   }
+  //   else if (task2Control==6){
+  //     task2Control=10;
+  //   }
+  // }
 
-  if(frameCounter % task2Control==0){
-    Task2();
-    if (task2Control==10){
-      task2Control=6;
-    }
-    else if (task2Control==6){
-      task2Control=10;
-    }
-  }
 
+  // if (frameCounter % 2==1){
+  //   Task3();
+  // }
 
-  if (frameCounter % 2==1){
-    Task3();
-  }
-
-  if (frameCounter% 5==0){
-    Task4();
-  }
+  // if (frameCounter% 5==0){
+  //   Task4();
+  // }
 
   if(frameCounter % 25==0){
     Task5();
   }
 
-  if(frameCounter ==200){
+  if(frameCounter ==50){
     frameCounter=1;
   }
   else {frameCounter++;}
-
 }
 
 void loop() {
