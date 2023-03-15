@@ -60,8 +60,11 @@ void Task2(){
   time02=0;                                     //Initialise time02 to 0
   time02=pulseIn(In2,!Signal2,Task2MaxPeriod);  //waits for the signal to change state and determines the time it takes before returning to the original state (half period of the input signal).
                                                 //if the signal takes more than Task2MaxPeriod to change, the code stops waiting and returns 0
-  if (time02<Task2MinPeriod/2){                 //Determines if the measured half period is too short, returns 0 if its is.
-    time02=0;
+  if (time02<Task2MinPeriod/2 && time02>0){                 //Determines if the measured half period is too short, returns 0 if its is.
+    time02=500;
+  }
+  else if (time02<=0){
+    time02=1500;
   }
   Freq02=1000000/(2*time02);                    //Calculates the frequency of the input signal based on the measured half period.
   monitor.jobEnded(2);
@@ -73,8 +76,11 @@ void Task3(){
   time03=0;                                     //Initialise time02 to 0
   time03=pulseIn(In3,!Signal3,Task3MaxPeriod);  //waits for the signal to change state and determines the time it takes before returning to the original state (half period of the input signal).
                                                 //if the signal takes more than Task2MaxPeriod to change, the code stops waiting and returns 0  
-  if (time03<Task3MinPeriod/2){                 //Determines if the measured half period is too short, returns 0 if its is.
-    time03=0;
+  if (time03<Task3MinPeriod/2 && time03>0){                 //Determines if the measured half period is too short, returns 0 if its is.
+    time03=500;
+  }
+  else if (time03<=0){
+    time03=1000;
   }
   Freq03=1000000/(2*time03);                    //Calculates the frequency of the input signal based on the measured half period.
   monitor.jobEnded(3);

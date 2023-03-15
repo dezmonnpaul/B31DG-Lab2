@@ -21,6 +21,7 @@ void loop1() {
   unsigned long time=micros();
   Task1();
   time=micros()-time;
+  Serial.print("Task 1 Timetaken: ");
   Serial.println(time);
   //Max time 286us, ~290us
 }
