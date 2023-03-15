@@ -1,7 +1,8 @@
-#include "src/B31DGMonitor.h"
+#include "src/B31DGMonitor.h"                         //Including the task monitor library header file 
 #include <Ticker.h>                                   //Including the ticker library header file   
-B31DGCyclicExecutiveMonitor monitor;                                
+B31DGCyclicExecutiveMonitor monitor;                  //Creating an object of the Task Monitor that will be used to verify if the tasks would meet their deadlines           
 
+#define FRAME_DURATION 4
 
 #define Out1 8                                        //Defining the output pin for Task 1
 
@@ -39,50 +40,49 @@ int Freq03_Percentage;;                               //Defining an array to sto
 
 Ticker frameTicker;                                   //Instantiating an instance of a Ticker called frameTicker
 int frameCounter=0;                                   //Defining a variable to count the number of frames
-int task2Control=10;                                   //Defining a variable to determine when Task2 will run
+int task2Control=10;                                  //Defining a variable to determine when Task2 will run
 
-unsigned long timeNow=0;
 void Task1(){
   monitor.jobStarted(1);                             //Outputs a  digital signal that is 
-  digitalWrite(Out1,HIGH);                //HIGH for 200us,   
+  digitalWrite(Out1,HIGH);                           //HIGH for 200us,   
   delayMicroseconds(200);
-  digitalWrite(Out1,LOW);                 //LOW for 50us,
+  digitalWrite(Out1,LOW);                            //LOW for 50us,
   delayMicroseconds(50);
-  digitalWrite(Out1,HIGH);                //and HIGH for 30us,
+  digitalWrite(Out1,HIGH);                           //and HIGH for 30us,
   delayMicroseconds(30);
   digitalWrite(Out1,LOW);
-  monitor.jobEnded(1);                 //the signal is then kept to be LOW.
+  monitor.jobEnded(1);                               //the signal is then kept to be LOW.
 }
 
 void Task2(){                                   
   monitor.jobStarted(2);
-  Signal2=digitalRead(In2);                     //Stores the initial state of the received signal
-  time02=0;                                     //Initialise time02 to 0
-  time02=pulseIn(In2,!Signal2,Task2MaxPeriod);  //waits for the signal to change state and determines the time it takes before returning to the original state (half period of the input signal).
-                                                //if the signal takes more than Task2MaxPeriod to change, the code stops waiting and returns 0
-  if ((time02<(Task2MinPeriod/2)) && time02>0){                 //Determines if the measured half period is too short, returns 0 if its is.
+  Signal2=digitalRead(In2);                                     //Stores the initial state of the received signal
+  time02=0;                                                     //Initialise time02 to 0
+  time02=pulseIn(In2,!Signal2,Task2MaxPeriod);                  //waits for the signal to change state and determines the time it takes before returning to the original state (half period of the input signal).
+                                                                //if the signal takes more than Task2MaxPeriod to change, the code stops waiting and returns 0
+  if ((time02<(Task2MinPeriod/2)) && time02>0){                 //Determines if the measured half period is too long, returns 500 (half period of max frequency) if its is.
     time02=500;
   }
-  else if (time02<=0||time02>1500){
+  else if (time02<=0||time02>1500){                             //Determines if the measured half period is too short, returns 1500 (half period of min frequency) if its is.
     time02=1500;
   }
-  Freq02=1000000/(2*time02);                    //Calculates the frequency of the input signal based on the measured half period.
+  Freq02=1000000/(2*time02);                                    //Calculates the frequency of the input signal based on the measured half period.
   monitor.jobEnded(2);
 };
 
 void Task3(){                                  
   monitor.jobStarted(3);
-  Signal3=digitalRead(In3);                     //Stores the initial state of the received signal
-  time03=0;                                     //Initialise time02 to 0
-  time03=pulseIn(In3,!Signal3,Task3MaxPeriod);  //waits for the signal to change state and determines the time it takes before returning to the original state (half period of the input signal).
-                                                //if the signal takes more than Task2MaxPeriod to change, the code stops waiting and returns 0  
-  if ((time03<(Task3MinPeriod/2)) && time03>0){                 //Determines if the measured half period is too short, returns 0 if its is.
+  Signal3=digitalRead(In3);                                     //Stores the initial state of the received signal
+  time03=0;                                                     //Initialise time03 to 0
+  time03=pulseIn(In3,!Signal3,Task3MaxPeriod);                  //waits for the signal to change state and determines the time it takes before returning to the original state (half period of the input signal).
+                                                                //if the signal takes more than Task2MaxPeriod to change, the code stops waiting and returns 0  
+  if ((time03<(Task3MinPeriod/2)) && time03>0){                 //Determines if the measured half period is too long, returns 500 (half period of max frequency) if its is.
     time03=500;
   }
-  else if (time03<=0||time03>1000){
+  else if (time03<=0||time03>1000){                             //Determines if the measured half period is too short, returns 1000 (half period of min frequency) if its is.
     time03=1000;
   }
-  Freq03=1000000/(2*time03);                    //Calculates the frequency of the input signal based on the measured half period.
+  Freq03=1000000/(2*time03);                                    //Calculates the frequency of the input signal based on the measured half period.
   monitor.jobEnded(3);
 };
 
@@ -136,10 +136,9 @@ void setup() {
   digitalWrite(Out3v3,HIGH);   //Sets the 3.3 Output pin for Task 4 to HIGH to output 3,3V
 
 
-  monitor.startMonitoring();
-  frame();
-  frameTicker.attach_ms(4, frame);
-
+  monitor.startMonitoring();                         //Starts the Task Monitor
+  frame();                                           //runs the first frame
+  frameTicker.attach_ms(FRAME_DURATION, frame);      //setting up the a Ticker to call the frame function every 4ms
 
 
 }
@@ -147,27 +146,27 @@ void setup() {
 void frame(){
   Task1();
  //Task 1 is called every frame
-  if (frameCounter % 2==0){
+
+  if (frameCounter % 2==0){ //Task 3 is performed at every other frame
     Task3();
   }
 
-
-  if((frameCounter % 10)==1||(frameCounter % 10)==5){
+  if((frameCounter % 10)==1||(frameCounter % 10)==5){ //Task 2 is run when the frame counter has a 1 or a 5 at the end of its value
     Task2();
   }
 
-  if (frameCounter% 5==0){
+  if (frameCounter% 5==0){ //Task 4 is run once every 5 frames
     Task4();
   }
 
-  if(frameCounter % 25==0){
+  if(frameCounter % 25==0){ //Task 5 is run once every 25 frames
     Task5();
   }
 
-  if(frameCounter ==50){
+  if(frameCounter ==50){ // Resets the frame counter to 1 after reaching 50 which is the end of one hyper period.
     frameCounter=1;
   }
-  else {frameCounter++;}
+  else {frameCounter++;} //Increments the frame counter
 }
 
 void loop() {
