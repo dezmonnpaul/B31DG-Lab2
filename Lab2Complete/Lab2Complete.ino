@@ -64,7 +64,7 @@ void Task2(){
   if ((time02<(Task2MinPeriod/2)) && time02>0){                 //Determines if the measured half period is too long, returns 500 (half period of max frequency) if its is.
     time02=(Task2MinPeriod/2);
   }
-  else if (time02<=0||time02>1500){                             //Determines if the measured half period is too short, returns 1500 (half period of min frequency) if its is.
+  else if (time02<=0||time02>(Task2MaxPeriod/2)){                             //Determines if the measured half period is too short, returns 1500 (half period of min frequency) if its is.
     time02=(Task2MaxPeriod/2);
   }
   Freq02=1000000/(2*time02);                                    //Calculates the frequency of the input signal based on the measured half period.
@@ -80,7 +80,7 @@ void Task3(){
   if ((time03<(Task3MinPeriod/2)) && time03>0){                 //Determines if the measured half period is too long, returns 500 (half period of max frequency) if its is.
     time03=(Task3MinPeriod/2);
   }
-  else if (time03<=0||time03>1000){                             //Determines if the measured half period is too short, returns 1000 (half period of min frequency) if its is.
+  else if (time03<=0||time03>((Task3MaxPeriod/2))){                             //Determines if the measured half period is too short, returns 1000 (half period of min frequency) if its is.
     time03=(Task3MaxPeriod/2);
   }
   Freq03=1000000/(2*time03);                                    //Calculates the frequency of the input signal based on the measured half period.
