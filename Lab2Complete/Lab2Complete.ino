@@ -2,7 +2,7 @@
 #include <Ticker.h>                                   //Including the ticker library header file   
 B31DGCyclicExecutiveMonitor monitor;                  //Creating an object of the Task Monitor that will be used to verify if the tasks would meet their deadlines           
 
-#define FRAME_DURATION 4
+#define FRAME_DURATION 4                              //Defining a frame duration of 4ms
 
 #define Out1 8                                        //Defining the output pin for Task 1
 
@@ -61,10 +61,10 @@ void Task2(){
   time02=pulseIn(In2,!Signal2,Task2MaxPeriod);                  //waits for the signal to change state and determines the time it takes before returning to the original state (half period of the input signal).
                                                                 //if the signal takes more than Task2MaxPeriod to change, the code stops waiting and returns 0
   if ((time02<(Task2MinPeriod/2)) && time02>0){                 //Determines if the measured half period is too long, returns 500 (half period of max frequency) if its is.
-    time02=500;
+    time02=(Task2MinPeriod/2);
   }
   else if (time02<=0||time02>1500){                             //Determines if the measured half period is too short, returns 1500 (half period of min frequency) if its is.
-    time02=1500;
+    time02=(Task2MaxPeriod/2);
   }
   Freq02=1000000/(2*time02);                                    //Calculates the frequency of the input signal based on the measured half period.
   monitor.jobEnded(2);
@@ -77,10 +77,10 @@ void Task3(){
   time03=pulseIn(In3,!Signal3,Task3MaxPeriod);                  //waits for the signal to change state and determines the time it takes before returning to the original state (half period of the input signal).
                                                                 //if the signal takes more than Task2MaxPeriod to change, the code stops waiting and returns 0  
   if ((time03<(Task3MinPeriod/2)) && time03>0){                 //Determines if the measured half period is too long, returns 500 (half period of max frequency) if its is.
-    time03=500;
+    time03=(Task3MinPeriod/2);
   }
   else if (time03<=0||time03>1000){                             //Determines if the measured half period is too short, returns 1000 (half period of min frequency) if its is.
-    time03=1000;
+    time03=(Task3MaxPeriod/2);
   }
   Freq03=1000000/(2*time03);                                    //Calculates the frequency of the input signal based on the measured half period.
   monitor.jobEnded(3);
