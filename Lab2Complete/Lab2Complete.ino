@@ -7,8 +7,8 @@ B31DGCyclicExecutiveMonitor monitor;                  //Creating an object of th
 #define Out1 8                                        //Defining the output pin for Task 1
 
 #define In2 0                                         //Defining the output pin for Task 2
-#define Task2MinFreq (333-3)                          //Defining the mimimum frequency for Task 2
-#define Task2MaxFreq (1000+3)                         //Defining the maximum frequency for Task 2 (Frequency range increased by 6 (-3, and +3) to allow a 3Hz error during detection)
+#define Task2MinFreq (333)                          //Defining the mimimum frequency for Task 2
+#define Task2MaxFreq (1000)                         //Defining the maximum frequency for Task 2 (Frequency range increased by 6 (-3, and +3) to allow a 3Hz error during detection)
 
 unsigned long Freq02;                                 //Defining a variable to store the frequency measures in Task 2
 bool Signal2;                                         //Defining a variable to store the initial signal when Task 2 begins
@@ -17,8 +17,8 @@ int Task2MaxPeriod=1000000/((Task2MinFreq));          //Defining a variable to s
 int Task2MinPeriod=1000000/((Task2MaxFreq));          //Defining a variable to store the minimum period expected in Task 2 
 
 #define In3 1                                         //Defining the output pin for Task 3
-#define Task3MinFreq (500-3)                          //Defining the mimimum frequency for Task 3
-#define Task3MaxFreq (1000+3)                         //Defining the maximum frequency for Task 3 (Frequency range increased by 6 (-3, and +3) to allow a 3Hz error during detection)
+#define Task3MinFreq (500)                          //Defining the mimimum frequency for Task 3
+#define Task3MaxFreq (1000)                         //Defining the maximum frequency for Task 3 (Frequency range increased by 6 (-3, and +3) to allow a 3Hz error during detection)
 
 unsigned long Freq03;                                 //Defining a variable to store the frequency measures in Task 3
 bool Signal3;                                         //Defining a variable to store the initial signal when Task 3 begins
@@ -113,8 +113,8 @@ void Task4(){
 
 void Task5(){
   monitor.jobStarted(5);
-  Freq02_Percentage=100*(Freq02-Task2MinFreq)/(Task2MaxFreq-Task2MinFreq);      //Converts the value of the frequency measured in Task 2 to a value between 0 and 99
-  Freq03_Percentage=100*(Freq03-Task3MinFreq)/(Task3MaxFreq-Task3MinFreq);      //Converts the value of the frequency measured in Task 3 to a value between 0 and 99
+  Freq02_Percentage=99*(Freq02-Task2MinFreq)/(Task2MaxFreq-Task2MinFreq);      //Converts the value of the frequency measured in Task 2 to a value between 0 and 99
+  Freq03_Percentage=99*(Freq03-Task3MinFreq)/(Task3MaxFreq-Task3MinFreq);      //Converts the value of the frequency measured in Task 3 to a value between 0 and 99
   char string_Output[5];                                                        //Creates a stringOutput based on the integer values of Freq02_Percentage and Freq03_Percentage
   sprintf(string_Output,"%d,%d",Freq02_Percentage,Freq03_Percentage);
   Serial.println(string_Output);                                                //Outputs the string to the serial monitor
