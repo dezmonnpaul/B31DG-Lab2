@@ -29,14 +29,15 @@ int Task3MinPeriod=1000000/((Task3MaxFreq));          //Defining a variable to s
 #define In4 5                                         //Defining the input pin for Task 4
 #define Out3v3 6                                      //Defining the 3.3V Output pin for Task 4
 #define Out4 4                                        //Defining the LED Output pin for Task 4
+#define MAX_Range 4096                                //Defining the max range for the analog read signal
 
 int index04=0;                                        //Defining a variable to determine position in Value04 array to store the current reading in
 int Value04[]={0,0,0,0};                              //Defining an array to store 4 value which are obtained from the readings of the Input in Task 4
 int average04[]={0,0};                                //Defining an array to store the average value of readings obtained and the number of readings obtained
 
 
-int Freq02_Percentage;                                //Defining an array to store the frequency measured in Task 2 betweeen the range 0 to 99.
-int Freq03_Percentage;;                               //Defining an array to store the frequency measured in Task 3 betweeen the range 0 to 99.
+int Freq02_Percentage;                                //Defining a variable to store the frequency measured in Task 2 betweeen the range 0 to 99.
+int Freq03_Percentage;;                               //Defining a variable to store the frequency measured in Task 3 betweeen the range 0 to 99.
 
 Ticker frameTicker;                                   //Instantiating an instance of a Ticker called frameTicker
 int frameCounter=0;                                   //Defining a variable to count the number of frames
@@ -103,7 +104,7 @@ void Task4(){
     }
   }
   average04[0]/=average04[1];                   // Computes the average of the reading staken so far
-  if(average04[0]>(4096/2)){                    //Determines if : average > half of the maximum value
+  if(average04[0]>(MAX_Range/2)){                    //Determines if : average > half of the maximum value
     digitalWrite(Out4,HIGH);                    //Turns ON a LED if average > half of the maximum value
    }
   else{digitalWrite(Out4,LOW);}                 //Turns OFF the LED otherwise
