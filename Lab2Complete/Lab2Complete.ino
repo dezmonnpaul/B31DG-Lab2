@@ -6,7 +6,7 @@ B31DGCyclicExecutiveMonitor monitor;                  //Creating an object of th
 
 #define Out1 8                                        //Defining the output pin for Task 1
 
-#define In2 0                                         //Defining the output pin for Task 2
+#define In2 0                                         //Defining the input pin for Task 2
 #define Task2MinFreq (333)                          //Defining the mimimum frequency for Task 2
 #define Task2MaxFreq (1000)                         //Defining the maximum frequency for Task 2 (Frequency range increased by 6 (-3, and +3) to allow a 3Hz error during detection)
 
@@ -41,7 +41,6 @@ int Freq03_Percentage;;                               //Defining a variable to s
 
 Ticker frameTicker;                                   //Instantiating an instance of a Ticker called frameTicker
 int frameCounter=0;                                   //Defining a variable to count the number of frames
-int task2Control=10;                                  //Defining a variable to determine when Task2 will run
 
 void Task1(){
   monitor.jobStarted(1);                             //Outputs a  digital signal that is 
@@ -61,10 +60,10 @@ void Task2(){
   time02=0;                                                     //Initialise time02 to 0
   time02=pulseIn(In2,!Signal2,Task2MaxPeriod);                  //waits for the signal to change state and determines the time it takes before returning to the original state (half period of the input signal).
                                                                 //if the signal takes more than Task2MaxPeriod to change, the code stops waiting and returns 0
-  if ((time02<(Task2MinPeriod/2)) && time02>0){                 //Determines if the measured half period is too long, returns 500 (half period of max frequency) if its is.
+  if ((time02<(Task2MinPeriod/2)) && time02>0){                 //Determines if the measured half period is too long, returns 500 (half period of max frequency) if it is.
     time02=(Task2MinPeriod/2);
   }
-  else if (time02<=0||time02>(Task2MaxPeriod/2)){                             //Determines if the measured half period is too short, returns 1500 (half period of min frequency) if its is.
+  else if (time02<=0||time02>(Task2MaxPeriod/2)){                             //Determines if the measured half period has timed-out(pulseIn returns a 0) or is longer than the expected maximum value, returns 1500 (half period of min frequency) if it is.
     time02=(Task2MaxPeriod/2);
   }
   Freq02=1000000/(2*time02);                                    //Calculates the frequency of the input signal based on the measured half period.
@@ -80,7 +79,7 @@ void Task3(){
   if ((time03<(Task3MinPeriod/2)) && time03>0){                 //Determines if the measured half period is too long, returns 500 (half period of max frequency) if its is.
     time03=(Task3MinPeriod/2);
   }
-  else if (time03<=0||time03>((Task3MaxPeriod/2))){                             //Determines if the measured half period is too short, returns 1000 (half period of min frequency) if its is.
+  else if (time03<=0||time03>((Task3MaxPeriod/2))){                             //Determines if the measured half period has timed-out(pulseIn returns a 0) or is longer than the expected maximum value, returns 1000 (half period of min frequency) if it is.
     time03=(Task3MaxPeriod/2);
   }
   Freq03=1000000/(2*time03);                                    //Calculates the frequency of the input signal based on the measured half period.
